@@ -156,18 +156,39 @@ export const App: React.FC = () => {
   };
 
   const handleBlur = (todoItem: Todo) => {
-    if (newTitle.trim() === todoItem.title) {
+    const { id, completed, userId, title } = todoItem;
+    addLoadingId(id);
+
+    if (newTitle.trim() === title) {
       setChangeTodoId(null);
 
       return;
     }
 
+    const newTodo = {
+      id: id,
+      completed: completed,
+      userId: userId,
+      title: newTitle,
+    };
+
+    const oldTodo = {
+      id: id,
+      completed: completed,
+      userId: userId,
+      title: title,
+    };
+
+    setTodos(prevTodos =>
+      prevTodos.map(t => (t.id === newTodo.id ? newTodo : t)),
+    );
+
     setChangeTodoId(null);
 
     updateTodo({
-      id: todoItem.id,
-      completed: todoItem.completed,
-      userId: todoItem.userId,
+      id: id,
+      completed: completed,
+      userId: userId,
       title: newTitle,
     })
       .then(updatedTodo => {
@@ -175,7 +196,15 @@ export const App: React.FC = () => {
           prevTodos.map(t => (t.id === updatedTodo.id ? updatedTodo : t)),
         );
       })
-      .catch(() => handleError('Unable to update a todo'));
+      .catch(() => {
+        handleError('Unable to update a todo');
+        setTodos(prevTodos =>
+          prevTodos.map(t => (t.id === oldTodo.id ? oldTodo : t)),
+        );
+      })
+      .finally(() => {
+        removeLoadingId(id);
+      });
   };
 
   const handleKeyDown = (
