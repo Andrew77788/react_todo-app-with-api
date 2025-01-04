@@ -16,7 +16,6 @@ type Props = {
   ) => void;
   handleBlur: (todoItem: Todo) => void;
   deleteTodoHandler: (todoId: number) => void;
-  activeLoader: boolean;
 };
 export const TodoItem: React.FC<Props> = ({
   todoItem,
@@ -29,7 +28,6 @@ export const TodoItem: React.FC<Props> = ({
   handleKeyDown,
   handleBlur,
   deleteTodoHandler,
-  activeLoader,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.target.value);
@@ -40,9 +38,6 @@ export const TodoItem: React.FC<Props> = ({
       data-cy="Todo"
       key={todoItem.id}
       className={classNames('todo', { completed: todoItem.completed })}
-      style={{
-        opacity: isLoadingIds.includes(todoItem.id) ? 0.75 : 1,
-      }}
     >
       <label className="todo__status-label">
         <input
@@ -57,7 +52,7 @@ export const TodoItem: React.FC<Props> = ({
 
       {changeTodoId === todoItem.id ? (
         <input
-          className="todo__edit"
+          className="todo__title-field"
           value={newTitle}
           onChange={handleChange}
           onBlur={() => handleBlur(todoItem)}
@@ -74,13 +69,6 @@ export const TodoItem: React.FC<Props> = ({
         </span>
       )}
 
-      {activeLoader && (
-        <div data-cy="TodoLoader" className="modal overlay">
-          <div className="modal-background has-background-white-ter"></div>
-          <div className="loader"></div>
-        </div>
-      )}
-
       {changeTodoId !== todoItem.id && (
         <button
           type="button"
@@ -90,6 +78,12 @@ export const TodoItem: React.FC<Props> = ({
         >
           ×
         </button>
+      )}
+      {isLoadingIds.includes(todoItem.id) && (
+        <div data-cy="TodoLoader" className="modal overlay is-active">
+          <div className="modal-background has-background-white-ter" />
+          <div className="loader" />
+        </div>
       )}
     </div>
   );

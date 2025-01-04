@@ -14,7 +14,6 @@ import { Section } from './componens/Section';
 import { Footer } from './componens/Footer';
 
 export const App: React.FC = () => {
-  const [activeLoader, setActiveLoader] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [todo, setTodo] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -86,6 +85,7 @@ export const App: React.FC = () => {
       })
       .finally(() => {
         setCloseInput(true);
+        removeLoadingId(-1);
       });
   };
 
@@ -142,7 +142,6 @@ export const App: React.FC = () => {
       return;
     }
 
-    setActiveLoader(true);
     const newTodo = {
       id: id,
       completed: completed,
@@ -181,7 +180,6 @@ export const App: React.FC = () => {
       })
       .finally(() => {
         removeLoadingId(id);
-        setActiveLoader(true);
       });
   };
 
@@ -225,7 +223,6 @@ export const App: React.FC = () => {
           handleKeyDown={handleKeyDown}
           handleBlur={handleBlur}
           deleteTodoHandler={deleteTodoHandler}
-          activeLoader={activeLoader}
         />
         {todos.length > 0 && (
           <Footer

@@ -19,7 +19,6 @@ type Props = {
   ) => void;
   handleBlur: (todoItem: Todo) => void;
   deleteTodoHandler: (todoId: number) => void;
-  activeLoader: boolean;
 };
 export const Section: React.FC<Props> = ({
   todos,
@@ -33,7 +32,6 @@ export const Section: React.FC<Props> = ({
   handleKeyDown,
   handleBlur,
   deleteTodoHandler,
-  activeLoader,
 }) => {
   const todoFilter = todos.filter(tod => {
     if (filter === FilterType.Active) {
@@ -62,7 +60,6 @@ export const Section: React.FC<Props> = ({
           handleKeyDown={handleKeyDown}
           handleBlur={handleBlur}
           deleteTodoHandler={deleteTodoHandler}
-          activeLoader={activeLoader}
         />
       ))}
     </section>
