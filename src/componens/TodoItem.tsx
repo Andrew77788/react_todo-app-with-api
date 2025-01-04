@@ -1,3 +1,4 @@
+import { FilterType } from '../types/FilterType';
 import { Todo } from '../types/Todo';
 import classNames from 'classnames';
 
@@ -50,6 +51,7 @@ export const TodoItem: React.FC<Props> = ({
           className="todo__status"
           checked={todoItem.completed}
           onChange={() => updateCompleted(todoItem)}
+          aria-label={`Mark as ${todoItem.completed ? FilterType.Active : FilterType.Completed}`}
         />
       </label>
 
@@ -79,14 +81,16 @@ export const TodoItem: React.FC<Props> = ({
         </div>
       )}
 
-      <button
-        type="button"
-        className="todo__remove"
-        data-cy="TodoDelete"
-        onClick={() => deleteTodoHandler(todoItem.id)}
-      >
-        ×
-      </button>
+      {changeTodoId !== todoItem.id && (
+        <button
+          type="button"
+          className="todo__remove"
+          data-cy="TodoDelete"
+          onClick={() => deleteTodoHandler(todoItem.id)}
+        >
+          ×
+        </button>
+      )}
     </div>
   );
 };

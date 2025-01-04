@@ -20,7 +20,9 @@ export const Footer: React.FC<Props> = ({
 
     Promise.all(completedTodos.map(tod => deleteTodoHandler(tod.id)));
   };
+
   const isCompleted = todos.every(tod => !tod.completed);
+
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">

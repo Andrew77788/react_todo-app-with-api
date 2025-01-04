@@ -130,6 +130,7 @@ export const App: React.FC = () => {
     if (newTitle.trim() === title) {
       setChangeTodoId(null);
       removeLoadingId(id);
+
       return;
     }
 
@@ -137,6 +138,7 @@ export const App: React.FC = () => {
       setChangeTodoId(null);
       deleteTodoHandler(todoItem.id);
       removeLoadingId(id);
+
       return;
     }
 
