@@ -54,10 +54,6 @@ export const Footer: React.FC<Props> = ({
             {label}
           </a>
         ))}
-
-
-
-
       </nav>
 
       <button

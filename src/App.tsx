@@ -21,7 +21,6 @@ export const App: React.FC = () => {
   const [isLoadingIds, setIsLoadingIds] = useState<number[]>([]);
   const [changeTodoId, setChangeTodoId] = useState<number | null>(null);
   const [newTitle, setNewTitle] = useState<string>('');
-  const [closeInput, setCloseInput] = useState<boolean>(true);
 
   const addLoadingId = (id: number) => {
     setIsLoadingIds(prev => [...prev, id]);
@@ -49,7 +48,6 @@ export const App: React.FC = () => {
   }, []);
 
   const addTodo = (event: FormEvent<HTMLFormElement>) => {
-    setCloseInput(false);
     event.preventDefault();
     if (!todo.trim()) {
       setErrorMessage('Title should not be empty');
@@ -67,7 +65,6 @@ export const App: React.FC = () => {
 
     setTodos(prev => [...prev, newTodoId]);
     addLoadingId(-1);
-
     postTodo({
       userId: USER_ID,
       title: todo.trim(),
@@ -82,7 +79,6 @@ export const App: React.FC = () => {
         handleError('Unable to add a todo');
       })
       .finally(() => {
-        setCloseInput(true);
         removeLoadingId(-1);
       });
   };
@@ -205,8 +201,8 @@ export const App: React.FC = () => {
           todo={todo}
           todos={todos}
           setTodo={setTodo}
-          closeInput={closeInput}
           updateCompleted={updateCompleted}
+          isLoadingIds={isLoadingIds}
         />
 
         <Section

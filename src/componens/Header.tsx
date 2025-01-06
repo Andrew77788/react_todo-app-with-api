@@ -7,16 +7,16 @@ type Props = {
   todo: string;
   todos: Todo[];
   setTodo: React.Dispatch<React.SetStateAction<string>>;
-  closeInput: boolean;
   updateCompleted: (todoItem: Todo) => void;
+  isLoadingIds: number[];
 };
 export const Header: React.FC<Props> = ({
   addTodo,
   todo,
   todos,
   setTodo,
-  closeInput,
   updateCompleted,
+  isLoadingIds,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const allCompleted = todos.every(tod => tod.completed);
@@ -32,7 +32,7 @@ export const Header: React.FC<Props> = ({
     if (!todo) {
       inputRef.current?.focus();
     }
-  }, [todo]);
+  }, [todos]);
 
   return (
     <header className="todoapp__header">
@@ -53,8 +53,9 @@ export const Header: React.FC<Props> = ({
           placeholder="What needs to be done?"
           value={todo}
           onChange={e => setTodo(e.target.value)}
-          disabled={!closeInput}
+          disabled={isLoadingIds.length > 0}
           ref={inputRef}
+          autoFocus
         />
       </form>
     </header>
