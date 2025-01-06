@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { FilterType } from '../types/FilterType';
 import { Todo } from '../types/Todo';
 import classNames from 'classnames';
@@ -22,46 +23,41 @@ export const Footer: React.FC<Props> = ({
   };
 
   const isCompleted = todos.every(tod => !tod.completed);
+  const todosActiveCount = useMemo(
+    () => todos.filter(tod => !tod.completed).length,
+    [todos],
+  );
+
+  const filterLinks = Object.values(FilterType).map(filterValue => ({
+    label: filterValue,
+    value: filterValue,
+    dataCy: `FilterLink${filterValue}`,
+  }));
 
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {todos.filter(tod => !tod.completed).length} items left
+        {todosActiveCount} items left
       </span>
 
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          className={classNames('filter__link', {
-            selected: filter === FilterType.All,
-          })}
-          data-cy="FilterLinkAll"
-          onClick={() => setFilter(FilterType.All)}
-        >
-          All
-        </a>
+        {filterLinks.map(({ label, value, dataCy }) => (
+          <a
+            key={value}
+            href={`#/${label.toLowerCase()}`}
+            className={classNames('filter__link', {
+              selected: filter === value,
+            })}
+            data-cy={dataCy}
+            onClick={() => setFilter(value)}
+          >
+            {label}
+          </a>
+        ))}
 
-        <a
-          href="#/active"
-          className={classNames('filter__link', {
-            selected: filter === FilterType.Active,
-          })}
-          data-cy="FilterLinkActive"
-          onClick={() => setFilter(FilterType.Active)}
-        >
-          Active
-        </a>
 
-        <a
-          href="#/completed"
-          className={classNames('filter__link', {
-            selected: filter === FilterType.Completed,
-          })}
-          data-cy="FilterLinkCompleted"
-          onClick={() => setFilter(FilterType.Completed)}
-        >
-          Completed
-        </a>
+
+
       </nav>
 
       <button

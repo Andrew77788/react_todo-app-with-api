@@ -20,7 +20,7 @@ export const Header: React.FC<Props> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const allCompleted = todos.every(tod => tod.completed);
-  const ToggleAllButton = () => {
+  const toggleAllButton = () => {
     const incompleteTodos = todos.filter(tod => !tod.completed);
 
     const todosToUpdate = incompleteTodos.length > 0 ? incompleteTodos : todos;
@@ -42,7 +42,7 @@ export const Header: React.FC<Props> = ({
           active: allCompleted && todos.length > 0,
         })}
         data-cy="ToggleAllButton"
-        onClick={ToggleAllButton}
+        onClick={toggleAllButton}
       />
 
       <form onSubmit={addTodo}>

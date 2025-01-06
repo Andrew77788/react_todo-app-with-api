@@ -41,9 +41,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     const fetchTodos = () => {
       getTodos()
-        .then(todosList => {
-          setTodos(todosList);
-        })
+        .then(setTodos)
         .catch(() => handleError('Unable to load todos'));
     };
 
